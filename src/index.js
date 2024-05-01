@@ -1,17 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { Component, createRef } from "react";
+import ReactDOM from "react-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+// Importing jQuery and its plugins using require() due to dependency order
+import $ from "jquery";
+window.jQuery = $;
+window.$ = $;
+require("jquery-ui-sortable");
+require("formBuilder");
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const formData = [
+  {
+    type: "header",
+    subtype: "h1",
+    label: "Form Oluşturma Sihirbazı"
+  }
+];
+
+class FormBuilderComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.fb = createRef();
+  }
+
+  componentDidMount() {
+    $(this.fb.current).formBuilder({ formData });
+  }
+
+  render() {
+    return <div id="fb-editor" ref={this.fb} />;
+  }
+}
+
+ReactDOM.render(<FormBuilderComponent />, document.getElementById("root"));
